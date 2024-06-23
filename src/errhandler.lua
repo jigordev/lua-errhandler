@@ -10,10 +10,18 @@ function Success:initialize(result)
     self.result = result
 end
 
-function Success:map(func)
+function Success:to_result(func)
     return Result(function()
         return func(self.result)
     end)
+end
+
+function Success:to_func(func)
+    return func(self.result)
+end
+
+function Success:get_or_else(default)
+    return self.result
 end
 
 function Success:get_result()
@@ -32,9 +40,32 @@ function Success:is_error()
     return false
 end
 
-function Error:initialize(name, message)
+function Error:initialize(name, message, code)
     self.name = name or "Error"
-    self.message = message
+    self.message = message:gsub("^.-%d+: ", "")
+    self.code = code or 0
+end
+
+function Error:get_code()
+    return self.code
+end
+
+function Error:get_message()
+    return self.message
+end
+
+function Error:to_result(func)
+    return Result(function()
+        return func(self)
+    end)
+end
+
+function Error:to_func(func)
+    return func(self)
+end
+
+function Error:get_or_else(default)
+    return default
 end
 
 function Error:is_success()
@@ -46,8 +77,7 @@ function Error:is_error()
 end
 
 function Error:raise()
-    local message = self.message:gsub("^.-%d+: ", "")
-    error(self.name .. ": " .. message, 2)
+    error(self.name .. ": " .. self.message, 2)
 end
 
 function Result:initialize(func)
@@ -68,6 +98,15 @@ function Result:is_success(instance)
         return instance:is_success()
     else
         error("The value is not an instance of 'Success' or 'Error'.")
+    end
+end
+
+function Result:match(success_func, error_func)
+    local success, result = pcall(self.func)
+    if success then
+        return success_func(result)
+    else
+        return error_func(result)
     end
 end
 
