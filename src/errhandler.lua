@@ -57,9 +57,9 @@ end
 function Result:__call(...)
     local success, result = pcall(self.func, ...)
     if success then
-        if result.isInstanceOf and result:isInstanceOf(Success) then return result else return Success(result) end
+        return (result.isInstanceOf and result:isInstanceOf(Success)) and result or Success(result)
     else
-        if result.isInstanceOf and result:isInstanceOf(Error) then return result else return Error(nil, result) end
+        return (result.isInstanceOf and result:isInstanceOf(Error)) and result or Error(nil, result)
     end
 end
 
