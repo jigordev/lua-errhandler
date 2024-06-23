@@ -77,11 +77,19 @@ local resultValue = successInstance:get_result()
 local defaultValue = successInstance:get_or_default("Default value")
 ```
 
-#### Map
+#### To Result
 
 ```lua
-local newResult = successInstance:map(function(result)
+local newResult = successInstance:to_result(function(result)
     return result * 2
+end)
+```
+
+#### To Function
+
+```lua
+successInstance:to_func(function(result)
+    print("Received result:", result)
 end)
 ```
 
@@ -91,6 +99,22 @@ end)
 
 ```lua
 errorInstance:raise()
+```
+
+#### To Result
+
+```lua
+local newResult = errorInstance:to_result(function(error)
+    return error:get_message()
+end)
+```
+
+#### To Function
+
+```lua
+errorInstance:to_func(function(error)
+    print("Error occurred:", error:get_message())
+end)
 ```
 
 ### Checking Success or Error
@@ -123,6 +147,47 @@ else
     -- Instance is not a Success or Error instance
 end
 ```
+
+Você está certo! Vamos adicionar um exemplo de uso do método `match` na seção `Handling Results with Result Class` para demonstrar como lidar com sucesso e erro de maneira estruturada usando `Success` e `Error`:
+
+```markdown
+### Handling Results with Result Class
+
+#### Creating a Result Instance
+
+To execute a function that may succeed or fail, create a `Result` instance:
+
+```lua
+local function divide(a, b)
+    if b == 0 then
+        return errhandler.Error("DivisionError", "Cannot divide by zero")
+    else
+        return errhandler.Success(a / b)
+    end
+end
+
+local result = errhandler.Result(function()
+    return divide(10, 2)
+end)
+```
+
+#### Calling the Result Instance with `match`
+
+```lua
+result:match(
+    function(successResult)
+        print("Division successful. Result:", successResult:get_result())
+    end,
+    function(errorResult)
+        print("Division failed. Error:", errorResult:get_message())
+    end
+)
+```
+
+In this example:
+- `match` is used to handle both success (`Success` instance) and error (`Error` instance) cases returned by `result`.
+- If the division succeeds (`Success`), it prints the result.
+- If the division fails (`Error`), it prints the error message.
 
 ## License
 

@@ -102,11 +102,15 @@ function Result:is_success(instance)
 end
 
 function Result:match(success_func, error_func)
-    local success, result = pcall(self.func)
+    local success, result = pcall(self)
     if success then
-        return success_func(result)
+        if result:is_success() then
+            return success_func(result)
+        else
+            return error_func(errhandler.Error("UnexpectedResult", "Unexpected non-success result"))
+        end
     else
-        return error_func(result)
+        return error_func(errhandler.Error("ExecutionError", result))
     end
 end
 
