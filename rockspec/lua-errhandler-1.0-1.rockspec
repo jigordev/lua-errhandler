@@ -1,4 +1,4 @@
-package = "errhandler"
+package = "lua-errhandler"
 version = "1.0-1"
 source = {
     url = "git://github.com/jigordev/lua-errhandler.git",
