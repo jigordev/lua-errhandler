@@ -148,29 +148,6 @@ else
 end
 ```
 
-Você está certo! Vamos adicionar um exemplo de uso do método `match` na seção `Handling Results with Result Class` para demonstrar como lidar com sucesso e erro de maneira estruturada usando `Success` e `Error`:
-
-```markdown
-### Handling Results with Result Class
-
-#### Creating a Result Instance
-
-To execute a function that may succeed or fail, create a `Result` instance:
-
-```lua
-local function divide(a, b)
-    if b == 0 then
-        return errhandler.Error("DivisionError", "Cannot divide by zero")
-    else
-        return errhandler.Success(a / b)
-    end
-end
-
-local result = errhandler.Result(function()
-    return divide(10, 2)
-end)
-```
-
 #### Calling the Result Instance with `match`
 
 ```lua
