@@ -24,7 +24,7 @@ function Success:get_or_else(default)
     return self.result
 end
 
-function Success:get_result()
+function Success:get()
     return self.result
 end
 
@@ -66,6 +66,10 @@ end
 
 function Error:get_or_else(default)
     return default
+end
+
+function Error:get()
+    return nil    
 end
 
 function Error:is_success()
