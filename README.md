@@ -57,7 +57,7 @@ end)
 ```lua
 local outcome = result()
 if outcome:is_success() then
-    print("Result:", outcome:get_result())
+    print("Result:", outcome:get())
 else
     outcome:raise()
 end
@@ -68,7 +68,7 @@ end
 #### Get Result
 
 ```lua
-local resultValue = successInstance:get_result()
+local resultValue = successInstance:get()
 ```
 
 #### Get Result or Default
@@ -153,7 +153,7 @@ end
 ```lua
 result:match(
     function(successResult)
-        print("Division successful. Result:", successResult:get_result())
+        print("Division successful. Result:", successResult:get())
     end,
     function(errorResult)
         print("Division failed. Error:", errorResult:get_message())
