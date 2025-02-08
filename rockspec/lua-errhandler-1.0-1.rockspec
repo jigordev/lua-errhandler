@@ -2,7 +2,7 @@ package = "lua-errhandler"
 version = "1.0-1"
 source = {
     url = "git://github.com/jigordev/lua-errhandler.git",
-    branch = "master",
+    branch = "main",
 }
 description = {
     summary = "A simple Lua library for handling success and error results using classes and method chaining.",
